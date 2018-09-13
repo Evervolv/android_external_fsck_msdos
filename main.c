@@ -1,4 +1,6 @@
-/*
+/*-
+ * SPDX-License-Identifier: BSD-2-Clause
+ *
  * Copyright (C) 1995 Wolfgang Solfrank
  * Copyright (c) 1995 Martin Husemann
  *
@@ -10,13 +12,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *	This product includes software developed by Martin Husemann
- *	and Wolfgang Solfrank.
- * 4. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -35,12 +30,11 @@
 #ifndef lint
 __RCSID("$NetBSD: main.c,v 1.10 1997/10/01 02:18:14 enami Exp $");
 static const char rcsid[] =
-  "$FreeBSD: src/sbin/fsck_msdosfs/main.c,v 1.16 2009/06/10 19:02:54 avg Exp $";
+  "$FreeBSD$";
 #endif /* not lint */
 
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <errno.h>
@@ -55,7 +49,7 @@ int preen;		/* set when preening */
 int rdonly;		/* device is opened read only (supersedes above) */
 int skipclean;		/* skip clean file systems if preening */
 
-static void usage(void);
+static void usage(void) __dead2;
 
 static void
 usage(void)
@@ -117,7 +111,7 @@ main(int argc, char **argv)
 		usage();
 
 	while (--argc >= 0) {
-//		setcdevname(*argv, preen);
+		setcdevname(*argv, preen);
 		erg = checkfilesys(*argv++);
 		if (erg > ret)
 			ret = erg;
@@ -146,6 +140,7 @@ ask(int def, const char *fmt, ...)
 
 	va_start(ap, fmt);
 	vsnprintf(prompt, sizeof(prompt), fmt, ap);
+	va_end(ap);
 	if (alwaysyes || rdonly) {
 		printf("%s? %s\n", prompt, rdonly ? "no" : "yes");
 		return !rdonly;

@@ -5,6 +5,7 @@ cc_binary {
         "check.c",
         "dir.c",
         "fat.c",
+        "fsutil.c",
         "main.c",
     ],
     include_dirs: ["external/fsck_msdos/"],
