@@ -52,6 +52,8 @@ extern int skipclean;	/* skip clean file systems if preening */
 
 extern struct dosDirEntry *rootDir;
 
+#define ask msdos_ask
+
 /*
  * function declarations
  */
